@@ -1,0 +1,46 @@
+{
+  "name": "postal.request-response",
+  "version": "0.1.0",
+  "description": "postal.js add-on that provides a request/response pattern API.",
+  "homepage": "https://github.com/postaljs/postal.request-response.js",
+  "keywords": [
+    "pub/sub",
+    "pub",
+    "sub",
+    "messaging",
+    "message",
+    "bus",
+    "event",
+    "eventing",
+    "mediator",
+    "broker",
+    "envelope",
+    "request",
+    "response",
+    "rpc"
+  ],
+  "author": "Jim Cowart <jim@ifandelse.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/postaljs/postal.request-response.git"
+  },
+  "main": [
+    "lib/postal.request-response.min.js",
+    "lib/postal.request-response.js"
+  ],
+  "dependencies": {
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {
+    "jquery": "~1.10.2",
+    "bootstrap": "~3.0.3",
+    "expect": "0.1.2",
+    "mocha": "~1.17.0",
+    "requirejs": "~2.1.10",
+    "postal.diagnostics": "~0.7.0",
+    "postal.js" : "~0.9.0-rc1"
+  },
+  "resolutions": {
+    "underscore": "~1.5.2"
+  }
+}

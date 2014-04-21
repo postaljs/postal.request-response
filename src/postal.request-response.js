@@ -1,0 +1,87 @@
+/*jshint -W098 */
+(function ( root, factory ) {
+	if ( typeof module === "object" && module.exports ) {
+		// Node, or CommonJS-Like environments
+		module.exports = function( postal ) {
+			return factory( require( "underscore" ), postal , this );
+		}
+	} else if ( typeof define === "function" && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define( ["underscore", "postal"], function ( _, postal ) {
+			return factory( _, postal, root );
+		} );
+	} else {
+		// Browser globals
+		root.postal = factory( root._, root.postal, root );
+	}
+}( this, function ( _, postal, global, undefined ) {
+
+	var REQ_RES_CHANNEL = "postal.request-response";
+
+	/**
+	 * Fast UUID generator, RFC4122 version 4 compliant.
+	 * @author Jeff Ward (jcward.com).
+	 * @license MIT license
+	 * @link http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
+	 **/
+	var UUID = (function() {
+	  var self = {};
+	  var lut = []; for (var i=0; i<256; i++) { lut[i] = (i<16?'0':'')+(i).toString(16); }
+	  self.create = function() {
+	    var d0 = Math.random()*0xffffffff|0;
+	    var d1 = Math.random()*0xffffffff|0;
+	    var d2 = Math.random()*0xffffffff|0;
+	    var d3 = Math.random()*0xffffffff|0;
+	    return	lut[d0&0xff]+lut[d0>>8&0xff]+lut[d0>>16&0xff]+lut[d0>>24&0xff]+'-'+
+	    		lut[d1&0xff]+lut[d1>>8&0xff]+'-'+lut[d1>>16&0x0f|0x40]+lut[d1>>24&0xff]+'-'+
+				lut[d2&0x3f|0x80]+lut[d2>>8&0xff]+'-'+lut[d2>>16&0xff]+lut[d2>>24&0xff]+
+				lut[d3&0xff]+lut[d3>>8&0xff]+lut[d3>>16&0xff]+lut[d3>>24&0xff];
+	  }
+	  return self;
+	})();
+
+
+	postal.ChannelDefinition.prototype.request = function(options) {
+		var env = options.envelope ? options.envelope : { topic: options.topic, data: options.data};
+		var requestId = UUID.create();
+		var replyTopic = options.replyTopic || requestId;
+		var replyChannel = options.replyChannel || REQ_RES_CHANNEL;
+		var timeout;
+		env.headers = env.headers || {};
+		env.headers.replyable = true;
+		env.headers.requestId = requestId;
+		env.headers.replyTopic = replyTopic;
+		env.headers.replyChannel = replyChannel;
+		var sub = postal.subscribe({
+			channel: replyChannel,
+			topic: replyTopic,
+			callback: options.onReply
+		}).once();
+		if(options.timeout && options.onTimeout) {			
+			timeout = setTimeout(function() {
+				options.onTimeout();
+			}, options.timeout);
+		}
+		return this.publish(env);
+	};
+
+	var oldPub = postal.publish;
+	postal.publish = function(envelope) {
+		if(envelope.headers && envelope.headers.replyable) {
+			envelope.reply = function(data) {
+				postal.publish({
+					channel: envelope.headers.replyChannel,
+					topic: envelope.headers.replyTopic,
+					headers: {
+						isReply: true,
+						requestId: envelope.headers.requestId
+					},
+					data: data
+				})
+			}
+		}
+		oldPub.call(this, envelope);
+	}
+
+	return postal;
+}));
