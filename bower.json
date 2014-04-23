@@ -1,8 +1,8 @@
 {
   "name": "postal.request-response",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "postal.js add-on that provides a request/response pattern API.",
-  "homepage": "https://github.com/postaljs/postal.request-response.js",
+  "homepage": "https://github.com/postaljs/postal.request-response",
   "keywords": [
     "pub/sub",
     "pub",
