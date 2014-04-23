@@ -1,4 +1,18 @@
-(function(postal, $){
+require.config({
+	paths: {
+		underscore: "../../bower/underscore/underscore",
+		postal : "../../bower/postal.js/lib/postal",
+		jquery : "../../bower/jquery/jquery",
+		"postal.request-response" : "../../lib/postal.request-response"
+	},
+	shim : {
+		"underscore" : {
+			exports: "_"
+		}
+	}
+});
+
+define(["postal", "jquery", "postal.request-response"], function(postal, $) {
 	// We have to tell postal how to get an deferred instance
 	postal.configuration.promise.createDeferred = function() {
 		return new $.Deferred();
@@ -39,4 +53,4 @@
 			}
 		);
 	});
-}(postal, jQuery));
+});

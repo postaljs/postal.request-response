@@ -18,6 +18,21 @@
 
 	var REQ_RES_CHANNEL = "postal.request-response";
 
+	// I want this lib to be compatible with nearly any
+	// promises-A-spec-compliant promise lib. For that 
+	// to happen, though, you have to provide a factory
+	// method implementation that returns a promise
+	postal.configuration.promise = {
+		createDeferred: function() {
+			throw new Error("You need to provide an implementation for postal.configuration.promise.createDeferred that returns a deferred/promise instance.");
+		},
+		getPromise: function() {
+			throw new Error("You need to provide an implementation for postal.configuration.promise.getPromise that returns a promise safe for consuming APIs to use.");
+		},
+		fulfill: "resolve",
+		fail: "reject",
+	};
+
 	/**
 	 * Fast UUID generator, RFC4122 version 4 compliant.
 	 * @author Jeff Ward (jcward.com).
@@ -47,6 +62,7 @@
 		var replyTopic = options.replyTopic || requestId;
 		var replyChannel = options.replyChannel || REQ_RES_CHANNEL;
 		var timeout;
+		var promise = postal.configuration.promise.createDeferred();
 		env.headers = env.headers || {};
 		env.headers.replyable = true;
 		env.headers.requestId = requestId;
@@ -55,14 +71,17 @@
 		var sub = postal.subscribe({
 			channel: replyChannel,
 			topic: replyTopic,
-			callback: options.onReply
+			callback: function(data, env) {
+				promise[postal.configuration.promise.fulfill](data);
+			}
 		}).once();
-		if(options.timeout && options.onTimeout) {			
+		if(options.timeout) {			
 			timeout = setTimeout(function() {
-				options.onTimeout();
+				promise[postal.configuration.promise.fail](new Error("Timeout limit exceeded for request."));;
 			}, options.timeout);
 		}
-		return this.publish(env);
+		this.publish(env);
+		return postal.configuration.promise.getPromise(promise);
 	};
 
 	var oldPub = postal.publish;
