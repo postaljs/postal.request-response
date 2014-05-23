@@ -1,6 +1,6 @@
 # postal.request-response
 
-##v 0.1.0
+##v 0.1.2
 
 ## What is it?
 postal.request-response is an add-on for [postal.js](https://github.com/postaljs/postal.js) which gives postal a request/response pattern API alongside the normal messaging (publish/subscribe) API which postal's core supports. A publisher can invoke `request` instead of `publish` - this returns a promise which can be used to handle the reply (via the success callback) or the timeout (if you've set one) via the error handler.
