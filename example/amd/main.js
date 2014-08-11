@@ -1,6 +1,7 @@
 require.config({
 	paths: {
-		underscore: "../../bower/underscore/underscore",
+		lodash: "../../bower/lodash/dist/lodash",
+		conduitjs: "../../bower/conduitjs/lib/conduit",
 		postal : "../../bower/postal.js/lib/postal",
 		jquery : "../../bower/jquery/jquery",
 		"postal.request-response" : "../../lib/postal.request-response"
@@ -30,7 +31,7 @@ define(["postal", "jquery", "postal.request-response"], function(postal, $) {
 
 	function writeToDom(str) {
 		$("body").append("<div>" + str + "</div>");
-	};
+	}
 
 	// And to show what the other end of the request looks like:
 	chn1.subscribe("last.login", function(data, envelope) {

@@ -16,7 +16,7 @@
 
 	function writeToDom(str) {
 		$("body").append("<div>" + str + "</div>");
-	};
+	}
 
 	// And to show what the other end of the request looks like:
 	chn1.subscribe("last.login", function(data, envelope) {

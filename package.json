@@ -1,77 +1,83 @@
 {
-    "name": "postal.request-response",
-    "description": "postal.js add-on that provides a request/response pattern API.",
-    "version": "0.1.2",
-    "homepage": "https://github.com/postaljs/postal.request-response",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/postaljs/postal.request-response.git"
-    },
-    "author": "Jim Cowart (http://freshbrewedcode.com/jimcowart)",
-    "contributors": [{
-        "name": "Jim Cowart",
-        "email": "WhyNotJustComment@OnMyBlog.com",
-        "url": "http://freshbrewedcode.com/jimcowart"
-    }],
-    "keywords": [
-        "pub/sub",
-        "pub",
-        "sub",
-        "messaging",
-        "message",
-        "bus",
-        "event",
-        "mediator",
-        "broker",
-        "envelope",
-        "request",
-        "response",
-        "postal",
-        "postaljs",
-        "postal.js"
-    ],
-    "bugs": {
-        "email": "PleaseJustUseTheIssuesPage@github.com",
-        "url": "https://github.com/postaljs/postal.request-response/issues"
-    },
-    "directories": {
-        "lib": "lib"
-    },
-    "main": "lib/postal.request-response.js",
-    "engines": {
-        "node": ">=0.8.0"
-    },
-    "dependencies": {
-        "lodash": "~2.4.1"
-    },
-    "bundleDependencies": [
-        "lodash"
-    ],
-    "devDependencies": {
-        "bower": "~1.2.8",
-        "gulp-util": "~2.2.9",
-        "gulp": "~3.3.1",
-        "gulp-imports": "~0.0.1",
-        "gulp-header": "~1.0.2",
-        "gulp-hint-not": "~0.0.3",
-        "gulp-uglify": "~0.1.0",
-        "gulp-rename": "~0.2.1",
-        "gulp-plato": "~0.1.0",
-        "gulp-beautify": "~1.0.3",
-        "tiny-lr": "0.0.5",
-        "express": "~3.4.7",
-        "gulp-rimraf": "0.0.8",
-        "open": "~0.0.4",
-        "expect.js": "~0.2.0",
-        "q": "~1.0.1"
-    },
-    "licenses": [{
-        "type": "MIT",
-        "url": "http://www.opensource.org/licenses/mit-license.php"
-    }],
-    "scripts": {
-        "test": "mocha ./spec/*.js",
-        "build": "gulp",
-        "start": "gulp server"
+  "name": "postal.request-response",
+  "description": "postal.js add-on that provides a request/response pattern API.",
+  "version": "0.2.0",
+  "homepage": "https://github.com/postaljs/postal.request-response",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/postaljs/postal.request-response.git"
+  },
+  "author": "Jim Cowart (http://freshbrewedcode.com/jimcowart)",
+  "contributors": [
+    {
+      "name": "Jim Cowart",
+      "email": "WhyNotJustComment@OnMyBlog.com",
+      "url": "http://freshbrewedcode.com/jimcowart"
     }
+  ],
+  "keywords": [
+    "pub/sub",
+    "pub",
+    "sub",
+    "messaging",
+    "message",
+    "bus",
+    "event",
+    "mediator",
+    "broker",
+    "envelope",
+    "request",
+    "response",
+    "postal",
+    "postaljs",
+    "postal.js"
+  ],
+  "bugs": {
+    "email": "PleaseJustUseTheIssuesPage@github.com",
+    "url": "https://github.com/postaljs/postal.request-response/issues"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "main": "lib/postal.request-response.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "lodash": "~2.4.1"
+  },
+  "bundleDependencies": [
+    "lodash"
+  ],
+  "devDependencies": {
+    "bower": "~1.2.8",
+    "conduitjs": "^0.3.3",
+    "expect.js": "~0.2.0",
+    "express": "~3.4.7",
+    "gulp": "~3.3.1",
+    "gulp-beautify": "~1.0.3",
+    "gulp-header": "~1.0.2",
+    "gulp-hint-not": "~0.0.3",
+    "gulp-imports": "~0.0.1",
+    "gulp-plato": "~0.1.0",
+    "gulp-rename": "~0.2.1",
+    "gulp-rimraf": "0.0.8",
+    "gulp-uglify": "~0.1.0",
+    "gulp-util": "~2.2.9",
+    "open": "~0.0.4",
+    "postal": "^0.10.3",
+    "q": "~1.0.1",
+    "tiny-lr": "0.0.5"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "scripts": {
+    "test": "mocha ./spec/*.js",
+    "build": "gulp",
+    "start": "gulp server"
+  }
 }

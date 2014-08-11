@@ -3,7 +3,7 @@
     var preqres = typeof window === "undefined" ? require("../lib/postal.request-response.js")(postal) : window.postal;
     var expect = typeof window === "undefined" ? require("../node_modules/expect.js") : window.expect;
     var Q = typeof window === "undefined" ? require("../node_modules/q") : window.Q;
-    var _ = typeof window === "undefined" ? require("underscore") : window._;
+    var _ = typeof window === "undefined" ? require("lodash") : window._;
     var subscription;
     var sub;
     var channel;
