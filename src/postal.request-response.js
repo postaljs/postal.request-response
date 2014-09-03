@@ -72,7 +72,11 @@
 			channel: replyChannel,
 			topic: replyTopic,
 			callback: function(data, env) {
-				promise[postal.configuration.promise.fulfill](data);
+				if(env.headers && env.headers.isError) {
+					promise[postal.configuration.promise.fail](data);
+				} else {
+					promise[postal.configuration.promise.fulfill](data);
+				}
 			}
 		}).once();
 		if(options.timeout) {			
@@ -87,15 +91,16 @@
 	var oldPub = postal.publish;
 	postal.publish = function(envelope) {
 		if(envelope.headers && envelope.headers.replyable) {
-			envelope.reply = function(data) {
+			envelope.reply = function(err, data) {
 				postal.publish({
 					channel: envelope.headers.replyChannel,
 					topic: envelope.headers.replyTopic,
 					headers: {
 						isReply: true,
+						isError: !!err,
 						requestId: envelope.headers.requestId
 					},
-					data: data
+					data: err || data
 				})
 			}
 		}

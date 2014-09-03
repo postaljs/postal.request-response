@@ -37,7 +37,7 @@ define(["postal", "jquery", "postal.request-response"], function(postal, $) {
 	chn1.subscribe("last.login", function(data, envelope) {
 		var result = getLoginInfo(data.userId);
 		writeToDom("Received request on last.login for userId: " + data.userId);
-		envelope.reply({ time: result.time, userId: data.userId  });
+		envelope.reply(null, { time: result.time, userId: data.userId  });
 	});
 
 	$("#btnReq").on("click", function(){

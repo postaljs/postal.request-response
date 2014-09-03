@@ -1,6 +1,6 @@
 # postal.request-response
 
-##v 0.2.0
+##v 0.3.0
 
 ## What is it?
 postal.request-response is an add-on for [postal.js](https://github.com/postaljs/postal.js) which gives postal a request/response pattern API alongside the normal messaging (publish/subscribe) API which postal's core supports. A publisher can invoke `request` instead of `publish` - this returns a promise which can be used to handle the reply (via the success callback) or the timeout (if you've set one) via the error handler.
@@ -15,7 +15,7 @@ This add-on adds a `request` method to the `ChannelDefinition` prototype, with a
 * `replyTopic` - the topic that should be used on the reply. This defaults to the `requestId` that is generated for this request.
 * `replyChannel` - the channel name that should be used on the reply. This defaults to `postal.request-response`, but you can override it to whatever you like.
 
-The `request` method returns a promise, which you can call `then` on and pass in success & error handlers.  The success handler receives the message `data` arg. The error handler takes a single JavaScript `Error` argument.
+The `request` method returns a promise, which you can call `then` on and pass in success & error handlers.  The success handler receives the message `data` arg. The error handler takes a single `err` argument.
 
 ### Enough Talk, Show Me Code
 To make a request, you can do the following:
@@ -42,7 +42,9 @@ To handle requests:
 ```
 var subscription = chn1.subscribe("last.login", function(data, envelope) {
 	var result = getLoginInfo(data.userId);
-	envelope.reply({ time: result.time, userId: data.userId });
+    // `reply` uses a node-style callback, with error as the first arg
+    // or data (for success) as the second
+	envelope.reply(null, { time: result.time, userId: data.userId });
 });
 ```
 
@@ -133,6 +135,7 @@ Notice the headers? This request has been given a unique ID (an RFC4122 version 
     "topic": "d76b71be-d8d7-44ac-95d4-1d2f87251715",
     "headers": {
         "isReply": true,
+        "isError": false,
         "requestId": "d76b71be-d8d7-44ac-95d4-1d2f87251715"
     },
     "data": {
