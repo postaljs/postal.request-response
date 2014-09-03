@@ -1,9 +1,9 @@
 # postal.request-response
 
-##v 0.3.0
+## v0.3.0
 
 ## What is it?
-postal.request-response is an add-on for [postal.js](https://github.com/postaljs/postal.js) which gives postal a request/response pattern API alongside the normal messaging (publish/subscribe) API which postal's core supports. A publisher can invoke `request` instead of `publish` - this returns a promise which can be used to handle the reply (via the success callback) or the timeout (if you've set one) via the error handler.
+postal.request-response is an add-on for [postal.js](https://github.com/postaljs/postal.js) which gives postal a request/response pattern API alongside the normal messaging (publish/subscribe) API which postal's core supports. A publisher can invoke `request` instead of `publish` - this returns a promise which can be used to handle a "success" reply (via the success callback) or a timeout(if you've set one) and/or "error" reply via the error handler.
 
 ## How do I use it?
 This add-on adds a `request` method to the `ChannelDefinition` prototype, with a method signature of `channel.request(options)`, where `options` can contain the following:
@@ -40,11 +40,20 @@ chn1.request({
 To handle requests:
 
 ```
+// SUCCESS REPLY
 var subscription = chn1.subscribe("last.login", function(data, envelope) {
 	var result = getLoginInfo(data.userId);
     // `reply` uses a node-style callback, with error as the first arg
     // or data (for success) as the second
 	envelope.reply(null, { time: result.time, userId: data.userId });
+});
+
+// ERROR REPLY
+var subscription = chn1.subscribe("last.login", function(data, envelope) {
+    var result = getLoginInfo(data.userId);
+    // `reply` uses a node-style callback, with error as the first arg
+    // or data (for success) as the second
+    envelope.reply({ msg: "No such user" });
 });
 ```
 
