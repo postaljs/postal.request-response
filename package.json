@@ -7,12 +7,12 @@
     "type": "git",
     "url": "git://github.com/postaljs/postal.request-response.git"
   },
-  "author": "Jim Cowart (http://freshbrewedcode.com/jimcowart)",
+  "author": "Jim Cowart (http://ifandelse.com)",
   "contributors": [
     {
       "name": "Jim Cowart",
       "email": "WhyNotJustComment@OnMyBlog.com",
-      "url": "http://freshbrewedcode.com/jimcowart"
+      "url": "http://ifandelse.com"
     }
   ],
   "keywords": [
@@ -46,9 +46,6 @@
   "dependencies": {
     "lodash": "~2.4.1"
   },
-  "bundleDependencies": [
-    "lodash"
-  ],
   "devDependencies": {
     "bower": "~1.2.8",
     "conduitjs": "^0.3.3",
@@ -79,5 +76,9 @@
     "test": "mocha ./spec/*.js",
     "build": "gulp",
     "start": "gulp server"
-  }
+  },
+  "files" : [
+    "lib",
+    "LICENSE"
+  ]
 }
