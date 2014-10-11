@@ -27,7 +27,7 @@
                 chn1 = postal.channel("channel1");
                 sub = chn1.subscribe("who.are.you", function(data, envelope) {
                     reqMsg = envelope;
-                    envelope.reply({ name: "I'm the Doctor" });
+                    envelope.reply(null, { name: "I'm the Doctor" });
                 });
                 p = chn1.request({
                     topic: "who.are.you",
@@ -63,7 +63,7 @@
                 chn1 = postal.channel("channel2");
                 sub = chn1.subscribe("y.u.no", function(data, envelope) {
                     setTimeout(function(){
-                        envelope.reply({ msg: "u mad bro?" });
+                        envelope.reply(null, { msg: "u mad bro?" });
                     }, 1000);
                 });
                 p = chn1.request({
@@ -83,6 +83,36 @@
                     function(err) {
                         expect(err).to.be.ok();
                         expect(err.toString()).to.be("Error: Timeout limit exceeded for request.");
+                        done();
+                    }
+                );
+            });
+        });
+        describe("when replying with an error", function(){
+            var chn3, sub, reqMsg, p;
+            before(function(){
+                chn3 = postal.channel("channel3");
+                sub = chn3.subscribe("y.u.no", function(data, envelope) {
+                    setTimeout(function(){
+                        envelope.reply({ msg: "OHSNAP! You failed." });
+                    }, 0);
+                });
+                p = chn3.request({
+                    topic: "y.u.no",
+                    data: {}
+                });
+            });
+            after(function(){
+                postal.reset();
+            });
+            it("should invoke error handler", function(done) {
+                p.then(
+                    function(data) {
+                        
+                    },
+                    function(err) {
+                        expect(err).to.be.ok();
+                        expect(err.msg).to.be("OHSNAP! You failed.");
                         done();
                     }
                 );
