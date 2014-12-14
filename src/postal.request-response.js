@@ -1,9 +1,11 @@
 ( function( root, factory ) {
+	/* istanbul ignore if  */
 	if ( typeof define === "function" && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define( [ "lodash", "postal" ], function( _, postal ) {
 			return factory( _, postal, root );
 		} );
+	/* istanbul ignore else */
 	} else if ( typeof module === "object" && module.exports ) {
 		// Node, or CommonJS-Like environments
 		module.exports = function( postal ) {
@@ -61,7 +63,8 @@
 	postal.ChannelDefinition.prototype.request = function( options ) {
 		var env = options.envelope ? options.envelope : {
 			topic: options.topic,
-			data: options.data
+			data: options.data,
+			headers: options.headers
 		};
 		var requestId = UUID.create();
 		var replyTopic = options.replyTopic || requestId;
@@ -103,7 +106,8 @@
 					headers: {
 						isReply: true,
 						isError: !!err,
-						requestId: envelope.headers.requestId
+						requestId: envelope.headers.requestId,
+						resolverNoCache: true
 					},
 					data: err || data
 				} );
