@@ -1,6 +1,6 @@
 # postal.request-response
 
-## v0.3.0
+## v0.3.1
 
 ## What is it?
 postal.request-response is an add-on for [postal.js](https://github.com/postaljs/postal.js) which gives postal a request/response pattern API alongside the normal messaging (publish/subscribe) API which postal's core supports. A publisher can invoke `request` instead of `publish` - this returns a promise which can be used to handle a "success" reply (via the success callback) or a timeout(if you've set one) and/or "error" reply via the error handler.
@@ -133,7 +133,7 @@ The `request` method wraps the `publish` call, and adds some extra fields to the
     },
     "channel": "channel1",
     "timeStamp": "2014-04-23T04:03:56.814Z"
-} 
+}
 ```
 
 Notice the headers? This request has been given a unique ID (an RFC4122 version 4 compliant GUID). When postal sees this metadata on the envelope, it will add a `reply` method to the envelope before handing the envelope to the subscriber's callback method. This allows the subscriber a simple way to reply without having to worry about knowing the ID, reply topic and reply channel to use. By default, postal will use the `requestId` as the topic, and `postal.request-reponse` as the channel on the reply. An example reply to the above message might look like this:
@@ -152,7 +152,7 @@ Notice the headers? This request has been given a unique ID (an RFC4122 version 
         "userId": 8675309
     },
     "timeStamp": "2014-04-23T04:03:56.819Z"
-} 
+}
 ```
 
 >WAIT A SECOND, JIM! I thought you said to never ever add behavior to the envelope?
