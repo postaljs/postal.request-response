@@ -115,6 +115,8 @@
 		}
 		oldPub.call( this, envelope );
 	};
+	
+	_.extend(postal.publish, oldPub);
 
 	return postal;
 } ));
