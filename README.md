@@ -20,7 +20,7 @@ The `request` method returns a promise, which you can call `then` on and pass in
 ### Enough Talk, Show Me Code
 To make a request, you can do the following:
 
-```
+```javascript
 var chn1 = postal.channel("user");
 
 chn1.request({
@@ -39,7 +39,7 @@ chn1.request({
 
 To handle requests:
 
-```
+```javascript
 // SUCCESS REPLY
 var subscription = chn1.subscribe("last.login", function(data, envelope) {
 	var result = getLoginInfo(data.userId);
@@ -67,7 +67,7 @@ That's up to you, actually. I have no desire to force another dependency on you.
 Let's look at some examples:
 
 ####Using [jQuery](http://api.jquery.com/category/deferred-object/)
-```
+```javascript
 // We need to tell postal how to get a deferred instance
 postal.configuration.promise.createDeferred = function() {
 	return new $.Deferred();
@@ -79,7 +79,7 @@ postal.configuration.promise.getPromise = function(dfd) {
 ```
 
 ####Using [Q](https://github.com/kriskowal/q) (v0.9)
-```
+```javascript
 // We need to tell postal how to get a deferred instance
 postal.configuration.promise.createDeferred = function() {
 	return Q.defer();
@@ -91,7 +91,7 @@ postal.configuration.promise.getPromise = function(dfd) {
 ```
 
 ####Using [when.js](https://github.com/cujojs/when)
-```
+```javascript
 // We need to tell postal how to get a deferred instance
 postal.configuration.promise.createDeferred = function() {
 	return when.defer();
@@ -103,7 +103,7 @@ postal.configuration.promise.getPromise = function(dfd) {
 ```
 
 ####Using [rsvp](https://github.com/tildeio/rsvp.js/)
-```
+```javascript
 // We need to tell postal how to get a deferred instance
 postal.configuration.promise.createDeferred = function() {
 	return RSVP.defer();
@@ -111,6 +111,24 @@ postal.configuration.promise.createDeferred = function() {
 // We need to tell postal how to get a "public-facing"/safe promise instance
 postal.configuration.promise.getPromise = function(dfd) {
 	return dfd.promise;
+};
+```
+
+####Using [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+```javascript
+// We need to tell postal how to get a deferred instance
+postal.configuration.promise.createDeferred = function () {
+	var deferred = {};
+	deferred.promise = new Promise(function (resolve, reject) {
+		deferred.resolve = resolve;
+		deferred.reject = reject;
+	});
+	return deferred;
+};
+
+// We need to tell postal how to get a "public-facing"/safe promise instance
+postal.configuration.promise.getPromise = function (deferred) {
+	return deferred.promise;
 };
 ```
 
